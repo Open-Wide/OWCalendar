@@ -1,15 +1,18 @@
 
 function getCalendar( year, month, loader ) {
 	
-	$("#owcalendar").fadeOut(100, function(){
-		$(this).html('<img class="ajax-loader" src="'+loader+'" />').fadeIn(100);
+	var fadeOut_duration=300;
+	var duration=100;
+	
+	$("#owcalendar").fadeOut(fadeOut_duration, function(){
+		$(this).html('<img class="ajax-loader" src="'+loader+'" />').fadeIn(duration);
 	});
 	
 	$.ez('ezJsOwCalendar::getCalendar::'+year+'::'+month, false ,function(data) {
 		if ( data.content!="false" )
         {
-			$("#owcalendar").fadeOut(100, function(){
-				$(this).html(data.content).fadeIn(100);
+			$("#owcalendar").fadeOut(duration, function(){
+				$(this).html(data.content).fadeIn(duration);
 			});
         }
 	});
