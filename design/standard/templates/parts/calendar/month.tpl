@@ -58,12 +58,14 @@
 		 $nb_days_in_week = $nb_days_in_first_week
 		 
 		 $first_day_of_week = 1
+		 
+		 $loader = "images/ajax-loader.gif"|ezdesign(no)
 	}
 		{* Header links *}
 		<p class="calendar_links">
-			<a id="calendar_prev" onClick="getCalendar( {$prev_year}, {$prev_month} ); return false;" href="{$url_prev}">&larr;</a>
+			<a id="calendar_prev" onClick="getCalendar( {$prev_year}, {$prev_month}, '{$loader}' ); return false;" href="{$url_prev}">&larr;</a>
 			{$first_day|datetime( custom, '%F %Y' )}
-			<a id="calendar_next" onClick="getCalendar( {$next_year}, {$next_month} ); return false;" href="{$url_next}">&rarr;</a>
+			<a id="calendar_next" onClick="getCalendar( {$next_year}, {$next_month}, '{$loader}' ); return false;" href="{$url_next}">&rarr;</a>
 		</p>
 		
 		<table>
