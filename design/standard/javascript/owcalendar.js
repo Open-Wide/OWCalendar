@@ -1,19 +1,14 @@
 
 function getCalendar( year, month, loader ) {
 	
-	var fadeOut_duration=300;
-	var duration=100;
+	var calendar = "#owcalendar";
 	
-	$("#owcalendar").fadeOut(fadeOut_duration, function(){
-		$(this).html('<img class="ajax-loader" src="'+loader+'" />').fadeIn(duration);
-	});
+	$(calendar).html('<img class="ajax-loader" src="'+loader+'" />');
 	
 	$.ez('ezJsOwCalendar::getCalendar::'+year+'::'+month, false ,function(data) {
 		if ( data.content!="false" )
         {
-			$("#owcalendar").fadeOut(duration, function(){
-				$(this).html(data.content).fadeIn(duration);
-			});
+			$(calendar).html(data.content);
         }
 	});
 	
