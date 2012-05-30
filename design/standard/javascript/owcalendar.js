@@ -1,12 +1,14 @@
 
-function getCalendar( year, month ) {
-
+function getCalendar( year, month, loader ) {
+	
+	var calendar = "#owcalendar";
+	
+	$(calendar).html('<img class="ajax-loader" src="'+loader+'" />');
+	
 	$.ez('ezJsOwCalendar::getCalendar::'+year+'::'+month, false ,function(data) {
 		if ( data.content!="false" )
         {
-			$("#owcalendar").fadeOut(100, function(){
-				$(this).html(data.content).fadeIn(100);
-			});
+			$(calendar).html(data.content);
         }
 	});
 	
