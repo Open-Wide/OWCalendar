@@ -10,6 +10,8 @@ Usage
  2. Include "design:parts/calendar/calendar.tpl" in your template
  3. Override "design:parts/calendar/day.tpl" in your design folder to display any event action
 
+See owcalendar.ini for options details
+
 Other
 ------------
-This calendar can work without javascript.
+This calendar can work without javascript. (only with no-dropdown settings)

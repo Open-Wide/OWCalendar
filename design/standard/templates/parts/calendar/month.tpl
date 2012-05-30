@@ -62,11 +62,38 @@
 			 $first_day_of_week = 1
 			 
 			 $loader = "images/ajax-loader.gif"|ezdesign(no)
+			 
+			 $dropdown_year = ezini('Navigation', 'DropdownYear', 'owcalendar.ini')|eq('enabled')
+			 $dropdown_month = ezini('Navigation', 'DropdownMonth', 'owcalendar.ini')|eq('enabled')
+			 
+			 $min_year = $year|sub( ezini('Navigation', 'PrevYears', 'owcalendar.ini') )
+			 $max_year = $year|sum( ezini('Navigation', 'NextYears', 'owcalendar.ini') )
 		}
 			{* Header links *}
 			<p class="calendar_links">
 				<a id="calendar_prev" onClick="getCalendar( {$prev_year}, {$prev_month}, '{$loader}' ); return false;" href="{$url_prev}">&larr;</a>
-				{$first_day|datetime( custom, '%F %Y' )}
+					
+				{if $dropdown_month}
+					<select onChange="getCalendar( {$year}, this.value, '{$loader}' ); return false;">
+						{for 1 to 12 as $m}
+							<option {if $m|eq($month)}selected="selected" {/if}value="{$m}">{makedate( $m, 1, $year )|datetime('custom', '%F')}</option>
+						{/for}
+					</select>
+				{else}
+					{$first_day|datetime( custom, '%F' )}
+				{/if}
+				
+				
+				{if and( $dropdown_year, $max_year|sub($min_year)|gt(0) )}
+					<select onChange="getCalendar( this.value, {$month}, '{$loader}' ); return false;">
+						{for $min_year to $max_year as $y}
+							<option {if $y|eq($year)}selected="selected" {/if}value="{$y}">{$y}</option>
+						{/for}
+					</select>
+				{else}
+					{$first_day|datetime( custom, '%Y' )}
+				{/if}
+				
 				<a id="calendar_next" onClick="getCalendar( {$next_year}, {$next_month}, '{$loader}' ); return false;" href="{$url_next}">&rarr;</a>
 			</p>
 			
