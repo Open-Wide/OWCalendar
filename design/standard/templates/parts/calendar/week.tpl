@@ -41,7 +41,7 @@
 						{def $current_day_after = $current_day}
 						
 							{for 1 to $nb_days_after as $day}
-								{include uri="design:parts/calendar/day.tpl" timestamp=$current_day_after class="calendar_inactive after"}
+								{include uri="design:parts/calendar/day.tpl" timestamp=$current_day_after class="calendar_inactive after" ajax_input=$ajax_input}
 								{set $current_day_after = $current_day_after|sum( 86400 )}
 							{/for}
 							
