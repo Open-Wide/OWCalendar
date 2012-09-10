@@ -1,3 +1,4 @@
+{* NOTE : You can access to your custom ajax variables with $ajax_input array *}
 {if and( is_set( $year ), is_set( $month ) )}
 	
 	{cache-block keys=array( $year, $month )}
@@ -7,12 +8,12 @@
 		****************************************}
 		
 		{if not( is_set( $url ) )}
-			{def $url = "REQUEST_URI"|serverVariable}
+			{def $url = first_set( $ajax_input.url, "REQUEST_URI"|serverVariable )}
 		{/if}
 		{def $url_parts = $url|explode('/(')
 			 $url_params = $url|explode('?')
 			 
-			 $url_suffix = ''
+			 $url_suffix = first_set( $ajax_input.url_suffix, '' )
 			 $url_prev = ''
 			 $url_next = ''
 			 
@@ -38,9 +39,6 @@
 			{set $url_suffix = concat($url_suffix, $url_params)}
 			{set $url_prev = concat( $url, '/(month)/', $prev_month, '/(year)/', $prev_year, $url_suffix )}
 			{set $url_next = concat( $url, '/(month)/', $next_month, '/(year)/', $next_year, $url_suffix )}
-		{undef $url_parts
-			   $url_params
-			   $url_suffix}
 		
 		
 		{***************************************
@@ -68,13 +66,18 @@
 			 
 			 $min_year = $year|sub( ezini('Navigation', 'PrevYears', 'owcalendar.ini') )
 			 $max_year = $year|sum( ezini('Navigation', 'NextYears', 'owcalendar.ini') )
+			 
+			 $ajax_custom_variables = concat("'loader': '", $loader, "', 'url': '", $url, "', 'url_suffix': '", $url_suffix, "'")
 		}
 			{* Header links *}
 			<p class="calendar_links">
-				<a id="calendar_prev" onClick="getCalendar( {$prev_year}, {$prev_month}, '{$loader}' ); return false;" href="{$url_prev}">&larr;</a>
+			
+				{* You can add custom variables in ajax call to preserve environment variables *}
+				<a id="calendar_prev" onClick="getCalendar( {ldelim}'year': {$prev_year}, 'month': {$prev_month}, {$ajax_custom_variables} {rdelim} ); return false;" href="{$url_prev}">&larr;</a>
 					
 				{if $dropdown_month}
-					<select onChange="getCalendar( {$year}, this.value, '{$loader}' ); return false;">
+					{* You can add custom variables in ajax call to preserve environment variables *}
+					<select onChange="getCalendar( {ldelim}'year': {$year}, 'month': this.value, {$ajax_custom_variables} {rdelim} ); return false;">
 						{for 1 to 12 as $m}
 							<option {if $m|eq($month)}selected="selected" {/if}value="{$m}">{makedate( $m, 1, $year )|datetime('custom', '%F')}</option>
 						{/for}
@@ -85,7 +88,8 @@
 				
 				
 				{if and( $dropdown_year, $max_year|sub($min_year)|gt(0) )}
-					<select onChange="getCalendar( this.value, {$month}, '{$loader}' ); return false;">
+					{* You can add custom variables in ajax call to preserve environment variables *}
+					<select onChange="getCalendar( {ldelim}'year': this.value, 'month': {$month}, {$ajax_custom_variables} {rdelim} ); return false;">
 						{for $min_year to $max_year as $y}
 							<option {if $y|eq($year)}selected="selected" {/if}value="{$y}">{$y}</option>
 						{/for}
@@ -94,7 +98,8 @@
 					{$first_day|datetime( custom, '%Y' )}
 				{/if}
 				
-				<a id="calendar_next" onClick="getCalendar( {$next_year}, {$next_month}, '{$loader}' ); return false;" href="{$url_next}">&rarr;</a>
+				{* You can add custom variables in ajax call to preserve environment variables *}
+				<a id="calendar_next" onClick="getCalendar( {ldelim}'year': {$next_year}, 'month': {$next_month}, {$ajax_custom_variables} {rdelim} ); return false;" href="{$url_next}">&rarr;</a>
 			</p>
 			
 			<table>
@@ -113,7 +118,8 @@
 					 			 year=$year
 					 			 month=$month
 					 			 nb_days=$nb_days_in_week
-					 			 first_day=$first_day_of_week}
+					 			 first_day=$first_day_of_week
+					 			 ajax_input=first_set($ajax_input, false())}
 					 {/if}
 					 
 					 {set $first_day_of_week = $first_day_of_week|sum( $nb_days_in_week )}

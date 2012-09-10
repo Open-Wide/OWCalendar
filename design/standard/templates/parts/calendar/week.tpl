@@ -1,3 +1,4 @@
+{* NOTE : You can access to your custom ajax variables with $ajax_input array *}
 {if and(
 	is_set( $year) ,
 	is_set( $month ),
@@ -27,7 +28,7 @@
 			
 			{* Display days in current month *}
 			{for 1 to $nb_days as $day}
-				{include uri="design:parts/calendar/day.tpl" timestamp=$current_day}
+				{include uri="design:parts/calendar/day.tpl" timestamp=$current_day ajax_input=$ajax_input}
 				{set $current_day = $current_day|sum( 86400 )}
 			{/for}
 			

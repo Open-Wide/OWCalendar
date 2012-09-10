@@ -1,11 +1,13 @@
 
-function getCalendar( year, month, loader ) {
+function getCalendar( args ) {
 	
 	var calendar = "#owcalendar";
 	
-	$(calendar).html('<img class="ajax-loader" src="'+loader+'" />');
+	if ( args['loader'] ) {
+		$(calendar).html('<img class="ajax-loader" src="'+args['loader']+'" />');
+	}
 	
-	$.ez('ezJsOwCalendar::getCalendar::'+year+'::'+month, false ,function(data) {
+	$.ez('ezJsOwCalendar::getCalendar', args, function(data) {
 		if ( data.content!="false" )
         {
 			$(calendar).html(data.content);

@@ -15,3 +15,13 @@ See owcalendar.ini for options details
 Other
 ------------
 This calendar can work without javascript. (only with no-dropdown settings)
+
+Changelog
+------------
+1.0 : First release
+	Simple ajax calendar
+	
+2.0 : Supports dropdown navigation
+
+3.0 : Warning : New ajax call
+	Supports custom ajax variables to preserve environment variables (exemple: current uri, current node id...)
