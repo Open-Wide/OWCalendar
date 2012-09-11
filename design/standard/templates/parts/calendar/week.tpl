@@ -17,7 +17,7 @@
 						{def $current_day_before = $current_day|sub( $nb_days_before|mul( 86400 ) )}
 						
 							{for 1 to $nb_days_before as $day}
-								{include uri="design:parts/calendar/day.tpl" timestamp=$current_day_before class="calendar_inactive before"}
+								{include uri="design:parts/calendar/day.tpl" timestamp=$current_day_before class="calendar_inactive before" ajax_input=$ajax_input}
 								{set $current_day_before = $current_day_before|sum( 86400 )}
 							{/for}
 							
